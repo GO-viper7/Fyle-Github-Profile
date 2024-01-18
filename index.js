@@ -1,4 +1,11 @@
-const accessToken = "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";
+let accessToken = ""
+fetch('/api/getApiKey')
+  .then(response => response.json())
+  .then(data => {
+      accessToken = data.apiKey;
+      console.log(apiKey);
+  })
+  .catch(error => console.error('Error fetching API key:', error));
 
 const apiUrl = "https://api.github.com/user";
 fetch(apiUrl, {
