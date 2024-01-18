@@ -3,7 +3,6 @@ fetch('/api/getApiKey')
   .then(response => response.json())
   .then(data => {
       accessToken = data.apiKey;
-      console.log(apiKey);
   })
   .catch(error => console.error('Error fetching API key:', error));
 
@@ -34,7 +33,7 @@ fetch(apiUrl, {
       .then((repos) => {
         const repoContainer = document.getElementById("repo-container");
         repoContainer.innerHTML = "";
-
+        console.log(repos)
         repos.forEach((repo) => {
           const repoCard = document.createElement("div");
           repoCard.className = "card col-md-4 repo-card mr-2";
