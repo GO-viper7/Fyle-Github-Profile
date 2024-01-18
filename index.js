@@ -101,12 +101,31 @@ fetch("/api/getApiKey")
       updatePagination();
     }
     document.getElementById("number-badge").innerHTML = 10;
-    function setReposPerPage(count) {
+    onePage = document.getElementById("10-per-page")
+    twoPage = document.getElementById("20-per-page")
+    threePage = document.getElementById("50-per-page")
+    fourPage = document.getElementById("100-per-page")
+
+    onePage.addEventListener("click", () => {
       document.getElementById("number-badge").innerHTML = count;
-      reposPerPage = count;
+      reposPerPage = 10;
       currentPage = 1;
-      fetchDataAndDisplay();
-    }
+    })
+    twoPage.addEventListener("click", () => {
+      document.getElementById("number-badge").innerHTML = count;
+      reposPerPage = 20;
+      currentPage = 1;
+    })
+    threePage.addEventListener("click", () => {
+      document.getElementById("number-badge").innerHTML = count;
+      reposPerPage = 50;
+      currentPage = 1;
+    })
+    fourPage.addEventListener("click", () => {
+      document.getElementById("number-badge").innerHTML = count;
+      reposPerPage = 100;
+      currentPage = 1;
+    })
 
     function updatePagination() {
       const paginationList = document.querySelectorAll(
