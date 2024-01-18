@@ -107,24 +107,28 @@ fetch("/api/getApiKey")
     fourPage = document.getElementById("100-per-page")
 
     onePage.addEventListener("click", () => {
-      document.getElementById("number-badge").innerHTML = count;
+      document.getElementById("number-badge").innerHTML = 10;
       reposPerPage = 10;
       currentPage = 1;
+      fetchDataAndDisplay();
     })
     twoPage.addEventListener("click", () => {
-      document.getElementById("number-badge").innerHTML = count;
+      document.getElementById("number-badge").innerHTML = 20;
       reposPerPage = 20;
       currentPage = 1;
+      fetchDataAndDisplay();
     })
     threePage.addEventListener("click", () => {
-      document.getElementById("number-badge").innerHTML = count;
+      document.getElementById("number-badge").innerHTML = 50;
       reposPerPage = 50;
       currentPage = 1;
+      fetchDataAndDisplay();
     })
     fourPage.addEventListener("click", () => {
-      document.getElementById("number-badge").innerHTML = count;
+      document.getElementById("number-badge").innerHTML = 100;
       reposPerPage = 100;
       currentPage = 1;
+      fetchDataAndDisplay();
     })
 
     function updatePagination() {
