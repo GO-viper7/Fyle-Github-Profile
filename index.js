@@ -2,67 +2,69 @@ let accessToken = ""
 fetch('/api/getApiKey')
   .then(response => response.json())
   .then(data => {
-      accessToken = data.apiKey;
+      
+  accessToken = data.apiKey;
+  console.log(accessToken)
+  const apiUrl = "https://api.github.com/user";
+  fetch(apiUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   })
-  .catch(error => console.error('Error fetching API key:', error));
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("profile-name").innerText = data.name || data.login;
+      document.getElementById("profile-description").innerText =
+        data.bio || "No description available";
+      document.getElementById("profile-location").innerText =
+        data.location || "Location not specified";
+      document.getElementById("github-link").href = data.html_url;
 
-const apiUrl = "https://api.github.com/user";
-fetch(apiUrl, {
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-  },
-})
-  .then((response) => response.json())
-  .then((data) => {
-    document.getElementById("profile-name").innerText = data.name || data.login;
-    document.getElementById("profile-description").innerText =
-      data.bio || "No description available";
-    document.getElementById("profile-location").innerText =
-      data.location || "Location not specified";
-    document.getElementById("github-link").href = data.html_url;
+      document.getElementById("profile-pic").src = data.avatar_url;
 
-    document.getElementById("profile-pic").src = data.avatar_url;
-
-    const reposUrl = `${apiUrl}/repos?per_page=${reposPerPage}&page=${currentPage}`;
-    fetch(reposUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((repos) => {
-        const repoContainer = document.getElementById("repo-container");
-        repoContainer.innerHTML = "";
-        console.log(repos)
-        repos.forEach((repo) => {
-          const repoCard = document.createElement("div");
-          repoCard.className = "card col-md-4 repo-card mr-2";
-          repoCard.innerHTML = `
-                <div class="card-body" >
-                  <h5 class="card-title">${repo.name}</h5>
-                  <p class="card-text">${
-                    repo.description || "No description available"
-                  }</p>
-                  <p class="card-text">${
-                    repo.topics.length > 0
-                      ? repo.topics
-                          .map(
-                            (topic) =>
-                              `<span class="badge badge-primary">${topic}</span>`
-                          )
-                          .join("")
-                      : '<span class="badge badge-primary">No Topic</span>'
-                  }</p>
-                </div>
-              `;
-          repoContainer.appendChild(repoCard);
-        });
+      const reposUrl = `${apiUrl}/repos?per_page=${reposPerPage}&page=${currentPage}`;
+      fetch(reposUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       })
-      .catch((error) => console.error("Error fetching repositories:", error));
-  })
-  .catch((error) =>
-    console.error("Error fetching profile information:", error)
-  );
+        .then((response) => response.json())
+        .then((repos) => {
+          const repoContainer = document.getElementById("repo-container");
+          repoContainer.innerHTML = "";
+          console.log(repos)
+          repos.forEach((repo) => {
+            const repoCard = document.createElement("div");
+            repoCard.className = "card col-md-4 repo-card mr-2";
+            repoCard.innerHTML = `
+                  <div class="card-body" >
+                    <h5 class="card-title">${repo.name}</h5>
+                    <p class="card-text">${
+                      repo.description || "No description available"
+                    }</p>
+                    <p class="card-text">${
+                      repo.topics.length > 0
+                        ? repo.topics
+                            .map(
+                              (topic) =>
+                                `<span class="badge badge-primary">${topic}</span>`
+                            )
+                            .join("")
+                        : '<span class="badge badge-primary">No Topic</span>'
+                    }</p>
+                  </div>
+                `;
+            repoContainer.appendChild(repoCard);
+          });
+        })
+        .catch((error) => console.error("Error fetching repositories:", error));
+    })
+    .catch((error) =>
+      console.error("Error fetching profile information:", error)
+    );
+
+})
+.catch(error => console.error('Error fetching API key:', error));
 
 let reposPerPage = 10;
 let currentPage = 1;
