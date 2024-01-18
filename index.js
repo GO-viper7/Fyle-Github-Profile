@@ -1,4 +1,4 @@
-const accessToken = "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";
+const accessToken = process.env.GITHUB_ACCESS_TOKEN;
 
 const apiUrl = "https://api.github.com/user";
 fetch(apiUrl, {
